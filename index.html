@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NumisMate</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Main Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background Shapes for Glassmorphism -->
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+    <div class="bg-shape shape-3"></div>
+
+    <main class="app-container glass-panel">
+        <header class="app-header">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1.5rem;">
+                <div class="header-content">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
+                        <img src="logo.png" alt="NumisMate Logo" style="width: 56px; height: 56px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.4);">
+                        <h1 style="margin-bottom: 0;">NumisMate</h1>
+                    </div>
+                    <p class="subtitle">Esplora l'intera collezione dal 2004 al 2026</p>
+                    
+                    <div class="tabs-container">
+                        <button class="tab-btn active" id="tab-collection"><i data-lucide="layout-grid" style="width:18px;vertical-align:middle;margin-right:8px"></i>Collezione</button>
+                        <button class="tab-btn" id="tab-owned"><i data-lucide="star" style="width:18px;vertical-align:middle;margin-right:8px"></i>Le mie monete</button>
+                        <button class="tab-btn" id="tab-dashboard"><i data-lucide="pie-chart" style="width:18px;vertical-align:middle;margin-right:8px"></i>Dashboard</button>
+                        <button class="tab-btn" id="tab-history"><i data-lucide="clock" style="width:18px;vertical-align:middle;margin-right:8px"></i>Cronologia</button>
+                    </div>
+                </div>
+                
+                <div class="stats-container" style="display: flex; gap: 1.5rem; align-items: stretch; margin-left: auto; flex-wrap: wrap;">
+                    <div class="header-stats glass-panel" style="padding: 1rem 1.5rem; border-radius: 12px; display: flex; flex-direction: column; justify-content: center; align-items: center; min-width: 150px;">
+                        <div style="color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; font-weight: bold; margin-bottom: 1rem; letter-spacing: 0.5px; display:flex; align-items:center; gap:0.4rem;">
+                            <i data-lucide="target" style="width:14px"></i> In Collezione
+                        </div>
+                        <div style="font-size: 1.8rem; font-weight: 800; color: var(--text-main); display: flex; align-items: baseline; gap: 0.2rem; line-height: 1;">
+                            <span id="header-owned">0</span>
+                            <span style="font-size: 1rem; color: var(--text-muted); font-weight: 600;">/ <span id="header-total">0</span></span>
+                        </div>
+                        <div style="font-size: 0.9rem; color: var(--accent-main); font-weight: 800; margin-top: 1rem; background: rgba(6,182,212,0.15); padding: 0.3rem 0.8rem; border-radius: 12px; letter-spacing: 0.5px;">
+                            <span id="header-percent">0</span>%
+                        </div>
+                    </div>
+                    
+                    <div class="rarity-legend glass-panel" style="padding: 1rem 1.2rem; border-radius: 12px; font-size: 0.85rem; min-width: 220px; display: flex; flex-direction: column; justify-content: center;">
+                        <div style="color: var(--text-muted); margin-bottom: 0.8rem; text-transform: uppercase; font-size: 0.8rem; font-weight: bold; letter-spacing: 0.5px; display:flex; align-items:center; gap:0.4rem;">
+                            Legenda Rarità
+                        </div>
+                        <div style="display:flex; flex-direction:column; gap: 0.5rem; color: var(--text-main);">
+                            <span style="display:flex; align-items:center; gap:0.5rem;"><i data-lucide="star" fill="#ef4444" stroke="#ef4444" style="width:16px;height:16px"></i> 1 - Molto Rara (&lt; 133.5k pz)</span>
+                            <span style="display:flex; align-items:center; gap:0.5rem;"><i data-lucide="star" fill="#f97316" stroke="#f97316" style="width:16px;height:16px"></i> 2 - Rara (&lt; 500k pz)</span>
+                            <span style="display:flex; align-items:center; gap:0.5rem;"><i data-lucide="star" fill="#facc15" stroke="#facc15" style="width:16px;height:16px"></i> 3 - Non Comune (&lt; 1M pz)</span>
+                            <span style="display:flex; align-items:center; gap:0.5rem;"><i data-lucide="star" fill="#84cc16" stroke="#84cc16" style="width:16px;height:16px"></i> 4 - Comune (&lt; 3M pz)</span>
+                            <span style="display:flex; align-items:center; gap:0.5rem;"><i data-lucide="star" fill="#15803d" stroke="#15803d" style="width:16px;height:16px"></i> 5 - Molto Comune (&gt; 3M pz)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="header-controls">
+                <div class="sort-group">
+                    <label for="filter-country"><i data-lucide="map" style="width:16px"></i> Paese</label>
+                    <input type="text" id="filter-country" class="glass-input" list="country-list" placeholder="Digita Paese...">
+                    <datalist id="country-list"></datalist>
+                </div>
+                
+                <div class="sort-group">
+                    <label for="filter-year"><i data-lucide="calendar" style="width:16px"></i> Anno</label>
+                    <input type="text" id="filter-year" class="glass-input" list="year-list" placeholder="Digita Anno...">
+                    <datalist id="year-list"></datalist>
+                </div>
+                
+                <div class="sort-group">
+                    <label for="sort-by"><i data-lucide="arrow-down-up" style="width:16px"></i> Ordina per</label>
+                    <select id="sort-by" class="glass-select">
+                        <option value="year-desc">Più recenti</option>
+                        <option value="year-asc" selected>Meno recenti</option>
+                        <option value="country-az">Paese (A-Z)</option>
+                        <option value="country-za">Paese (Z-A)</option>
+                        <option value="rarity-asc">Più Rare (1 → 5)</option>
+                        <option value="rarity-desc">Meno Rare (5 → 1)</option>
+                        <option value="qty-desc">Quantità (Maggiore)</option>
+                        <option value="qty-asc">Quantità (Minore)</option>
+                    </select>
+                </div>
+                <div class="sort-group search-group">
+                    <label for="search-input"><i data-lucide="search"></i> Cerca</label>
+                    <input type="text" id="search-input" class="glass-input" placeholder="Es. Italia, 2024...">
+                </div>
+                
+                <div class="sort-group" style="justify-content: flex-end;">
+                    <label>&nbsp;</label>
+                    <button id="export-csv-btn" class="glass-input" style="cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; background: rgba(255, 255, 255, 0.15); color: var(--text-main); font-weight: 600; border: 1px solid rgba(255,255,255,0.2);">
+                        <i data-lucide="download" style="width: 16px;"></i> Esporta CSV
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <section id="app-content" class="content-area">
+            <div id="loader" class="loader-container">
+                <div class="loader"></div>
+                <p>Caricamento collezione...</p>
+            </div>
+            <!-- Coins Grid -->
+            <div class="coins-grid" id="coins-grid" style="display: none;"></div>
+        </section>
+
+        <section id="dashboard-content" class="content-area" style="display: none;">
+            <!-- Injected via JS -->
+        </section>
+
+        <section id="history-content" class="content-area" style="display: none;">
+            <!-- Injected via JS -->
+        </section>
+    </main>
+
+    <!-- Modal for Coin Details -->
+    <div id="coin-modal" class="modal-overlay hidden">
+        <div class="modal-content glass-panel">
+            <button id="modal-close" class="modal-close"><i data-lucide="x"></i></button>
+            <div class="modal-body" id="modal-body">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Confirm Modal -->
+    <div id="confirm-modal" class="modal-overlay hidden" style="z-index: 2000;">
+        <div class="glass-panel" style="padding: 2.5rem 2rem; border-radius: 20px; max-width: 450px; text-align: center; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.8);">
+            <div style="width: 60px; height: 60px; background: rgba(249, 115, 22, 0.2); color: #f97316; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
+                <i data-lucide="alert-triangle" style="width: 32px; height: 32px;"></i>
+            </div>
+            <h3 style="margin-bottom: 1rem; font-size: 1.5rem; font-weight: 800; color: white;">Salvare le modifiche?</h3>
+            <p style="color: var(--text-muted); margin-bottom: 2rem; font-size: 1rem; line-height: 1.5;">Hai modificato il numero di monete in tuo possesso. Vuoi salvare queste modifiche prima di chiudere?</p>
+            <div style="display: flex; gap: 1rem; justify-content: center;">
+                <button onclick="discardChanges()" style="padding: 0.8rem 1.5rem; border-radius: 10px; border: 1px solid var(--glass-border); background: rgba(255,255,255,0.05); color: white; cursor: pointer; font-weight: 600; font-family: 'Inter', sans-serif; transition: all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">Non salvare</button>
+                <button onclick="saveAndClose()" style="padding: 0.8rem 1.5rem; border-radius: 10px; border: none; background: #06b6d4; color: white; cursor: pointer; font-weight: 600; font-family: 'Inter', sans-serif; transition: all 0.2s; box-shadow: 0 4px 15px rgba(6, 182, 212, 0.4);" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">Salva ed esci</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Logic -->
+    <script src="data.js?v=2"></script>
+    <script src="app.js?v=2"></script>
+    <script>
+        lucide.createIcons();
+        
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(registration => console.log('SW registered'))
+                    .catch(err => console.log('SW registration failed:', err));
+            });
+        }
+    </script>
+</body>
+</html>
